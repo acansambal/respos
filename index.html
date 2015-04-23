@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Respos by acansambal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Respos</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/acansambal/respos" class="btn">View on GitHub</a>
+      <a href="https://github.com/acansambal/respos/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/acansambal/respos/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p>// Recent Post widget for Blogger with Preloader
+// Author: Taufik Nurrohman
+// <a href="https://plus.google.com/108949996304093815163/about">https://plus.google.com/108949996304093815163/about</a></p>
+
+<p>function showRecentPosts(json) {</p>
+
+<pre><code>for (var i = 0; i &lt; rp_numPosts; i++) {
+    if (i == json.feed.entry.length) break;
+    var entry = json.feed.entry[i],
+        postTitle = entry.title.$t,
+        postAuthor = entry.author[0].name.$t,
+        postDate = entry.published.$t.substring(0, 10),
+        postUrl,
+        linkTarget,
+        postContent,
+        postImage,
+        skeleton = "";
+
+    var dy = postDate.substring(0, 4),
+        dm = postDate.substring(5, 7),
+        dd = postDate.substring(8, 10);
+
+    for (var j = 0; j &lt; entry.link.length; j++) {
+        if (entry.link[j].rel == 'alternate') {
+            postUrl = entry.link[j].href;
+            break;
+        }
+    }
+
+    for (var k = 0; k &lt; entry.link.length; k++) {
+        if (entry.link[k].rel == 'replies' &amp;&amp; entry.link[k].type == 'text/html') {
+            commentNum = entry.link[k].title.split(" ")[0];
+            commentLabel = entry.link[k].title.split(" ")[1];
+            break;
+        }
+    }
+
+    if ("content" in entry) {
+        postContent = entry.content.$t;
+    } else if ("summary" in entry) {
+        postContent = entry.summary.$t;
+    } else {
+        postContent = '';
+    }
+
+    if (rp_thumbWidth !== 0 || rp_thumbWidth !== false) {
+        if ("media$thumbnail" in entry) {
+            postImage = '&lt;img style="width:' + rp_thumbWidth + 'px;height:' + rp_thumbWidth + 'px;" src="' + entry.media$thumbnail.url.replace(/\/s[0-9]+\-c/g, "\/s" + rp_thumbWidth + "-c") + '" alt="Loading..." /&gt;';
+        } else {
+            postImage = '&lt;img style="width:' + rp_thumbWidth + 'px;height:' + rp_thumbWidth + 'px;" src="' + rp_noImage + '" alt="Loading..."/&gt;';
+        }
+    } else {
+        postImage = "";
+    }
+
+    postContent = postContent.replace(/&lt;br ?\/?&gt;/ig, " ").replace(/&lt;.*?&gt;/g, "").replace(/[&lt;&gt;]/g, "");
+
+    if (postContent.length &gt; rp_numChars || rp_numChars !== false) {
+        if (rp_numChars !== 0) {
+            postContent = postContent.substring(0, rp_numChars) + '&amp;hellip;';
+        } else {
+            postContent = '';
+        }
+    } else {
+        postContent = '';
+    }
+
+    linkTarget = (rp_newTabLink) ? ' target="_blank"' : '';
+
+    skeleton = '&lt;li&gt;';
+    skeleton += '&lt;a href="' + postUrl + '"' + linkTarget + '&gt;' + postImage + '&lt;/a&gt;';
+    skeleton += '&lt;a class="title" href="' + postUrl + '"' + linkTarget + '&gt;' + postTitle + '&lt;/a&gt;';
+    skeleton += postContent;
+    skeleton += '&lt;br style="clear:both;"/&gt;&lt;span class="foot"&gt;&lt;span class="dt"&gt;' + dd + ' ' + rp_monthNames[parseInt(dm, 10) - 1] + ' ' + dy + '&lt;/span&gt; &lt;span class="cm"&gt;(' + commentNum + ' ' + commentLabel + ')&lt;/span&gt;&lt;/span&gt;';
+    skeleton += '&lt;/li&gt;';
+    document.getElementById('dte_recent-post').innerHTML += skeleton;
+}
+</code></pre>
+
+<p>}</p>
+
+<p>var labelName = (rp_sortByLabel !== false) ? '-/' + rp_sortByLabel : "";
+var rp_script = document.createElement('script');
+rp_script.src = rp_homePage + '/feeds/posts/summary/' + labelName + '?alt=json-in-script&amp;callback=showRecentPosts';</p>
+
+<p>// Preloading...
+if (rp_loadTimer === "onload") {
+    window.onload = function() {
+        document.getElementsByTagName('head')[0].appendChild(rp_script);
+    };
+} else {
+    setTimeout(function() {
+        document.getElementsByTagName('head')[0].appendChild(rp_script);
+    }, rp_loadTimer);
+}</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/acansambal/respos">Respos</a> is maintained by <a href="https://github.com/acansambal">acansambal</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
